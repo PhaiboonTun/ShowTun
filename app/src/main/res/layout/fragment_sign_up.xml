@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--Toolbar-->
     <android.support.v7.widget.Toolbar
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:id="@+id/toolBarsignUp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -23,7 +25,7 @@
         <EditText
             android:layout_width="@dimen/content"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="@string/name"
             android:inputType="text"
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorPrimaryLight" />
