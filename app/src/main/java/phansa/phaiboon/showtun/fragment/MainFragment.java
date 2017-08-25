@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -106,6 +107,21 @@ public class MainFragment extends Fragment{
                 }// if
 
             } //for
+
+            if (b) {
+                //User False
+                MyAlert myAlert = new MyAlert(getActivity());
+                myAlert.myDialog("User False", "Please Try Again User False");
+            } else if (passwordString.equals(userStrings[3])) {
+                //Password True
+                Toast.makeText(getActivity(), "Welcome " + userStrings[1],
+                        Toast.LENGTH_SHORT).show();
+
+            } else {
+                //Password False
+                MyAlert myAlert = new MyAlert(getActivity());
+                myAlert.myDialog("Password False","Please Try Again Password False");
+            }
 
         } catch (Exception e) {
             Log.d(tag, "e checkUser ==> " + e.toString());
