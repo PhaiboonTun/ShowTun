@@ -22,6 +22,7 @@
 
         <!--User-->
         <EditText
+            android:id="@+id/edtUser"
             android:textColorHint="@color/colorPrimaryLight"
             android:textColor="@color/colorPrimaryDark"
             android:inputType="text"
@@ -31,6 +32,7 @@
 
         <!--Password-->
         <EditText
+            android:id="@+id/edtPassword"
             android:textColorHint="@color/colorPrimaryLight"
             android:textColor="@color/colorPrimaryDark"
             android:inputType="textPassword"
@@ -55,6 +57,7 @@
 
     <!--Button-->
     <Button
+        android:id="@+id/btnLogin"
         android:textColor="#ffffff"
         android:background="@color/colorPrimary"
         android:text="Login"
