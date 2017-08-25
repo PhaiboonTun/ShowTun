@@ -5,4 +5,7 @@
     <string name="name">ชื่อ</string>
     <string name="title_have_space">Have Space</string>
     <string name="massage_have_space">Please Fill All Blank</string>
+
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Cloce Drawer</string>
 </resources>
