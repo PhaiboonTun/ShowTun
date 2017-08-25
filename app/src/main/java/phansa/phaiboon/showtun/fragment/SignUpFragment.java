@@ -1,9 +1,11 @@
 package phansa.phaiboon.showtun.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.RadioGroup;
 import phansa.phaiboon.showtun.MainActivity;
 import phansa.phaiboon.showtun.R;
 import phansa.phaiboon.showtun.manager.MyAlert;
+import phansa.phaiboon.showtun.manager.PostNewUser;
 
 /**
  * Created by Samsung on 23/8/2560.
@@ -61,8 +64,10 @@ public class SignUpFragment extends Fragment {
                 switch (i) {
                     case R.id.radMale:
                         genderString = "Male";
+                        break;
                     case R.id.radFemale:
                         genderString = "Female";
+                        break;
                     default:
                         genderString = "n/a";
                         break;
@@ -130,7 +135,48 @@ public class SignUpFragment extends Fragment {
         Log.d(tag, "Pass ==>" + passwordString);
         Log.d(tag, "Gender ==>" + genderString);
 
+        try {
+            PostNewUser postNewUser = new PostNewUser(getActivity());
+            postNewUser.execute(nemeString, userString, passwordString, genderString);
+            String result = postNewUser.get();
+            Log.d(tag, "result ==> "+ result);
+
+            //Check Result
+            if (Boolean.parseBoolean(result)) {
+                //Success Upload
+                //getActivity().getSupportFragmentManager().popBackStack();
+                welcome();
+
+            } else {
+
+                //UnSuccess Upload
+                MyAlert myAlert = new MyAlert(getActivity());
+                myAlert.myDialog("Cannot Upload New User To Server",
+                        "Please Tye Again");
+            }
+
+        } catch (Exception e) {
+            Log.d(tag, "e upload ==> " + e.toString());
+        }
+
     }// upload
+
+    private void welcome() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.my_alert);
+        builder.setTitle("Success Upload");
+        builder.setMessage("Please Ok to Login");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                getActivity().getSupportFragmentManager().popBackStack();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
 
     private void createToolBar() {
         //SetUp Toolbar
