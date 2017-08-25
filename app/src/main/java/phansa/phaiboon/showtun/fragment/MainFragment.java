@@ -11,7 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import phansa.phaiboon.showtun.R;
+import phansa.phaiboon.showtun.manager.GetAllData;
 import phansa.phaiboon.showtun.manager.MyAlert;
 
 /**
@@ -78,9 +82,30 @@ public class MainFragment extends Fragment{
     private void checkUserAndPass() {
 
         String tag = "25AugV1";
-
+        String urlJSON ="http://androidthai.in.th/Tun/getAllUserTun.php";
+        String[] columnStrings = new String[]{"id","Name","User","Password","Gender",};
+        String[] userStrings = new String[columnStrings.length];
+        boolean b = true; // True ==> User False
 
         try {
+            GetAllData getAllData = new GetAllData(getActivity());
+            getAllData.execute(urlJSON);
+            String strJSON = getAllData.get();
+            Log.d(tag, "JSON ==>" + strJSON);
+
+            JSONArray jsonArray = new JSONArray(strJSON);
+            for (int i=0; i<jsonArray.length(); i+=1) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (userString.equals(jsonObject.getString(columnStrings[2]))) {
+                    b = false;
+                    for (int i1=0; i1<columnStrings.length; i1+=1) {
+                        userStrings[i1] = jsonObject.getString(columnStrings[i1]);
+                        Log.d(tag, "userString[" + i1 + "] ==>" + userStrings[i1]);
+                    }
+                }// if
+
+            } //for
 
         } catch (Exception e) {
             Log.d(tag, "e checkUser ==> " + e.toString());
