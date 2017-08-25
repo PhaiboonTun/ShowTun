@@ -1,5 +1,6 @@
 package phansa.phaiboon.showtun.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import phansa.phaiboon.showtun.R;
+import phansa.phaiboon.showtun.ServiceActivity;
 import phansa.phaiboon.showtun.manager.GetAllData;
 import phansa.phaiboon.showtun.manager.MyAlert;
 
@@ -116,6 +118,12 @@ public class MainFragment extends Fragment{
                 //Password True
                 Toast.makeText(getActivity(), "Welcome " + userStrings[1],
                         Toast.LENGTH_SHORT).show();
+
+                //Intent To Service
+                Intent intent = new Intent(getActivity(), ServiceActivity.class);
+                intent.putExtra("User", userStrings);
+                getActivity().startActivity(intent);
+                getActivity().finish();
 
             } else {
                 //Password False
