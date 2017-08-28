@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -58,7 +59,7 @@ public class ReadEbookFragment extends Fragment{
             String[] nameStings = new String[jsonArray.length()];
             String[] detailStrings = new String[jsonArray.length()];
             String[] imageStrings = new String[jsonArray.length()];
-            String[] pdfStrings = new String[jsonArray.length()];
+            final String[] pdfStrings = new String[jsonArray.length()];
 
             for (int i=0; i<jsonArray.length(); i+=1) {
 
@@ -73,6 +74,19 @@ public class ReadEbookFragment extends Fragment{
             EbookAdapter ebookAdapter = new EbookAdapter(getActivity(),
                     imageStrings, nameStings, detailStrings);
             listView.setAdapter(ebookAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.contentFragmentService, DetailFragment.detailInstance(pdfStrings[i]))
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+            });
 
 
         } catch (Exception e) {
