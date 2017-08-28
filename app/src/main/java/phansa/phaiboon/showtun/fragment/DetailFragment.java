@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import phansa.phaiboon.showtun.R;
 
@@ -46,7 +48,23 @@ public class DetailFragment extends Fragment {
         urlPDFString = getArguments().getString("PDF");
         Log.d("28AubV2", "urlPDF ==> " + urlPDFString);
 
+    }//on create
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //crete WebView
+        creteWebView();
+
+    }//on activity create
+
+    private void creteWebView() {
+        WebView webView = getView().findViewById(R.id.detailWabView);
+        WebViewClient webViewClient = new WebViewClient();
+        webView.setWebViewClient(webViewClient);
+        webView.loadUrl(urlPDFString);
+        webView.getSettings().setJavaScriptEnabled(true);
+
     }
-
-
 }//Main Class

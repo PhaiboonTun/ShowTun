@@ -1,5 +1,6 @@
 package phansa.phaiboon.showtun;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import phansa.phaiboon.showtun.fragment.ReadEbookFragment;
 
@@ -35,7 +38,32 @@ public class ServiceActivity extends AppCompatActivity {
                     .commit();
         }
 
+
+        //ReadEbook Controller
+        readEbookController();
+
+        //Show My Location
+        showMyLocation(R.id.txtShowLocationDrawer);
+
+
     } // onCreate
+
+    private void showMyLocation(int txtShowLocationDrawer) {
+        TextView textView = (TextView) findViewById(txtShowLocationDrawer);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ServiceActivity.this, MapsActivity.class);
+                startActivity(intent);
+                drawerLayout.closeDrawers();
+            }
+        });
+    }
+
+    private void readEbookController() {
+        showMyLocation(R.id.txtReadEbookDrawer);
+
+    }
 
     private void initialView() {
 
