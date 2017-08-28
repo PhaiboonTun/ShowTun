@@ -9,7 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import phansa.phaiboon.showtun.R;
+import phansa.phaiboon.showtun.manager.EbookAdapter;
 import phansa.phaiboon.showtun.manager.GetAllData;
 import phansa.phaiboon.showtun.manager.Myconstant;
 
@@ -48,6 +53,27 @@ public class ReadEbookFragment extends Fragment{
             getAllData.execute(myconstant.getUrlEbookString());
             String strJSON = getAllData.get();
             Log.d(tag, "JSON ==>" + strJSON);
+
+            JSONArray jsonArray = new JSONArray(strJSON);
+            String[] nameStings = new String[jsonArray.length()];
+            String[] detailStrings = new String[jsonArray.length()];
+            String[] imageStrings = new String[jsonArray.length()];
+            String[] pdfStrings = new String[jsonArray.length()];
+
+            for (int i=0; i<jsonArray.length(); i+=1) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                nameStings[i] = jsonObject.getString("Name");
+                detailStrings[i] = jsonObject.getString("Detail");
+                imageStrings[i] = jsonObject.getString("Cover");
+                pdfStrings[i] = jsonObject.getString("pdf");
+
+            } //for
+
+            EbookAdapter ebookAdapter = new EbookAdapter(getActivity(),
+                    imageStrings, nameStings, detailStrings);
+            listView.setAdapter(ebookAdapter);
+
 
         } catch (Exception e) {
             Log.d(tag, "e crateListView ==> " + e.toString());
