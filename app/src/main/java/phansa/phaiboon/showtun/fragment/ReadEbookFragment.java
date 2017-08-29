@@ -81,7 +81,7 @@ public class ReadEbookFragment extends Fragment{
 
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.contentFragmentService, DetailFragment.detailInstance(pdfStrings[i]))
+                            .replace(R.id.contentFragmentService, DetailFragment.detailInstance(i))
                             .addToBackStack(null)
                             .commit();
 

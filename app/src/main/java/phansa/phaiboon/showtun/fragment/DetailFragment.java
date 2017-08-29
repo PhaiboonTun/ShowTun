@@ -3,6 +3,7 @@ package phansa.phaiboon.showtun.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +11,27 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+
 import phansa.phaiboon.showtun.R;
+import phansa.phaiboon.showtun.manager.Myconstant;
 
 /**
  * Created by Samsung on 28/8/2560.
  */
 
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements OnPageChangeListener, OnLoadCompleteListener{
 
-    private String urlPDFString;
+    private int myIndex;
 
-    public static DetailFragment detailInstance(String strURLpdf) {
+    public static DetailFragment detailInstance(int index) {
 
         DetailFragment detailFragment = new DetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("PDF", strURLpdf);
+        bundle.putInt("Index", index);
         detailFragment.setArguments(bundle);
         return detailFragment;
 
@@ -45,8 +52,8 @@ public class DetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //Read From Argument
-        urlPDFString = getArguments().getString("PDF");
-        Log.d("28AubV2", "urlPDF ==> " + urlPDFString);
+        myIndex = getArguments().getInt("Index",0);
+        Log.d("28AubV2", "myIndex ==> " + myIndex);
 
     }//on create
 
@@ -54,17 +61,30 @@ public class DetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //crete WebView
-        creteWebView();
+        //ShowPDF
+        Myconstant myConstant = new Myconstant();
+        String[] titlePDFStrings = myConstant.getTitlePDFStrings();
+
+        PDFView pdfView = getView().findViewById(R.id.myPDFViewer);
+        pdfView.fromAsset(titlePDFStrings[myIndex])
+                .defaultPage(0)
+                .enableSwipe(true)
+                .swipeHorizontal(false)
+                .onPageChange(this)
+                .onLoad(this)
+                .scrollHandle(new DefaultScrollHandle(getActivity()))
+                .load();
 
     }//on activity create
 
-    private void creteWebView() {
-        WebView webView = getView().findViewById(R.id.detailWabView);
-        WebViewClient webViewClient = new WebViewClient();
-        webView.setWebViewClient(webViewClient);
-        webView.loadUrl(urlPDFString);
-        webView.getSettings().setJavaScriptEnabled(true);
+
+    @Override
+    public void onPageChanged(int page, int pageCount) {
+
+    }
+
+    @Override
+    public void loadComplete(int nbPages) {
 
     }
 }//Main Class
